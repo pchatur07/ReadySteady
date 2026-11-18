@@ -4,23 +4,21 @@
 **Group:** Ready Teady Go & Company · **Course:** Software Engineering
 **Version:** 1.0 · **Date:** 18 November 2026
 
-> **Fill before submission:** replace the member placeholders below with real names and roll
-> numbers. Per the course brief, only **one** member submits the group form, **once**, and all
-> member details must be correct.
+> Per the course brief, only **one** member submits the group form, **once**, and all member
+> details must be correct. Details below are final as of 18 November 2026.
 
 ## 1. Team and responsibility matrix
 
 | Member | Roll no. | Primary ownership | Secondary / review |
 |---|---|---|---|
-| Member A — *name pending* | *pending* | Requirements (SRS), use cases, stakeholder analysis | Test plan review |
-| Member B — *name pending* | *pending* | Backend: services, repository, schema, concurrency | Architecture doc |
-| Member C — *name pending* | *pending* | Frontend UI/UX, UML diagrams, integration & system tests | Maintenance doc |
-| Member D — *name pending (if 4)* | *pending* | Testing lead: unit tests, QA checklist, this plan | SRS traceability |
+| Pratik Chaturvedi | IIT2025087 | Frontend UI/UX, UML diagrams, integration & system tests, UI revision | Maintenance doc, demo rehearsal |
+| Shanyu Reddy | IIT2025078 | Backend: services, repository, schema, concurrency safety | Architecture doc, test plan review |
+| Atharv Dehedkar | IIT2025020 | Requirements (SRS), use cases, stakeholder analysis; unit tests & QA checklist | This plan, SRS traceability |
 
 Every member contributes meaningfully: ownership above is *primary*, not exclusive — all members
 review each other's pull requests and each owns at least one SDLC deliverable end-to-end.
-Existing code history (initial prototype by the founding member) is credited in the git log and
-in §3 milestone M3.
+The initial prototype is preserved in the git history (milestone M3); the three members above own
+the SE deliverables, the testing effort and the subsequent revisions.
 
 ## 2. Method
 
@@ -55,10 +53,10 @@ Buffer: 6–10 Dec reserved for corrective maintenance after evaluator feedback 
 | Risk | Likelihood | Impact | Mitigation | Owner |
 |---|---|---|---|---|
 | Knowledge silo (one member wrote the prototype) | High | High | Pair walkthroughs; docs + 75 tests as shared understanding; rotate PR review | All |
-| Concurrency bugs (oversell/overbook) | Medium | High | `BEGIN IMMEDIATE` + threaded race tests ST-03/04 in every run | Member B |
-| Scope creep (payments, delivery, notifications) | Medium | Medium | SRS §1.2 out-of-scope list; changes need a doc update + group vote | Member A |
+| Concurrency bugs (oversell/overbook) | Medium | High | `BEGIN IMMEDIATE` + threaded race tests ST-03/04 in every run | Shanyu |
+| Scope creep (payments, delivery, notifications) | Medium | Medium | SRS §1.2 out-of-scope list; changes need a doc update + group vote | Atharv |
 | Exam-week crunch | High | Medium | M6 buffer week; freeze date 25 Nov; no new features after freeze | All |
-| UI regressions breaking API contracts | Medium | High | Frontend-only changes; contract table in SRS §6.1; integration tests as gate | Member C |
+| UI regressions breaking API contracts | Medium | High | Frontend-only changes; contract table in SRS §6.1; integration tests as gate | Pratik |
 | Wrong/missing group details on form | Low | High | Checklist in M6; single submitter verifies all roll numbers | Submitter |
 
 ## 6. Definition of done (per deliverable)
