@@ -1,0 +1,17 @@
+flowchart TD
+    A([Start]) --> B[Student opens menu]
+    B --> C[Add items to cart]
+    C --> D[Choose pickup slot]
+    D --> E[Tap Place order]
+    E --> F{Cart valid?}
+    F -- No --> X1[Show error] --> C
+    F -- Yes --> G{Slot today, at least 10 min away, not full?}
+    G -- No --> X2[Ask for another slot] --> D
+    G -- Yes --> H{Every item available and in stock?}
+    H -- No --> X3[Show which item is short] --> C
+    H -- Yes --> I{Wallet balance covers total?}
+    I -- No --> X4[Show shortfall] --> Z1([End: not ordered])
+    I -- Yes --> J[Atomically: reduce stock, book slot, debit wallet, save order]
+    J --> K[Show pickup token]
+    K --> L[Order appears in staff queue]
+    L --> Z2([End: order placed])

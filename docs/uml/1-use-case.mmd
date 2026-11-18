@@ -1,0 +1,22 @@
+flowchart LR
+    Student(["👤 Student"])
+    Staff(["👤 Canteen staff"])
+    Admin(["👤 Canteen admin"])
+    subgraph RT["ReadyTeady system"]
+        UC1(("UC-01 Register / log in"))
+        UC2(("UC-02 Browse menu"))
+        UC3(("UC-03 Manage cart"))
+        UC4(("UC-04 Choose pickup slot"))
+        UC5(("UC-05 Place order"))
+        UC6(("UC-06 Track order"))
+        UC7(("UC-07 Cancel order"))
+        UC8(("UC-08 View order queue"))
+        UC9(("UC-09 Update order status"))
+        UC10(("UC-10 Manage menu and stock"))
+        UC11(("UC-11 Configure slots, top up wallets"))
+        UC12(("UC-12 View sales report"))
+    end
+    Student --- UC1 & UC2 & UC3 & UC5 & UC6 & UC7
+    UC5 -. "include" .-> UC4
+    Staff --- UC1 & UC8 & UC9
+    Admin --- UC1 & UC10 & UC11 & UC12 & UC8

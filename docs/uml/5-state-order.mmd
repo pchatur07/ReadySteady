@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> PLACED : student places order
+    PLACED --> ACCEPTED : staff accepts
+    PLACED --> REJECTED : staff rejects / refund
+    PLACED --> CANCELLED : student cancels / refund
+    ACCEPTED --> PREPARING : staff starts cooking
+    PREPARING --> READY : staff marks ready
+    READY --> PICKED_UP : token verified at counter
+    PICKED_UP --> [*]
+    CANCELLED --> [*]
+    REJECTED --> [*]

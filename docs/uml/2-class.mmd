@@ -1,0 +1,95 @@
+classDiagram
+    direction LR
+    class User {
+        +int id
+        +str name
+        +str email
+        +str password_hash
+        +Role role
+        +int wallet_paise
+    }
+    class Canteen {
+        +int id
+        +str name
+        +time open_time
+        +time close_time
+        +int slot_minutes
+        +int slot_capacity
+    }
+    class MenuItem {
+        +int id
+        +str name
+        +str category
+        +int price_paise
+        +int prep_minutes
+        +int stock
+        +bool is_available
+    }
+    class Order {
+        +int id
+        +datetime slot_start
+        +Status status
+        +int total_paise
+        +str token
+    }
+    class OrderItem {
+        +str name
+        +int unit_price_paise
+        +int quantity
+    }
+    class OrderEvent {
+        +Status from_status
+        +Status to_status
+        +datetime at
+    }
+    class WalletTransaction {
+        +int amount_paise
+        +str reason
+        +datetime at
+    }
+    class Status {
+        <<enumeration>>
+        PLACED
+        ACCEPTED
+        PREPARING
+        READY
+        PICKED_UP
+        CANCELLED
+        REJECTED
+    }
+    class OrderService {
+        +place_order(user, canteen_id, items, slot_start, now) Order
+        +cancel_order(user, order_id, now) Order
+        +update_status(staff, order_id, target, now, token) Order
+        +staff_queue(canteen_id, now) list
+    }
+    class SlotService {
+        +list_slots(canteen, now) list
+        +validate_slot(canteen, slot_start, now) datetime
+    }
+    class MenuService {
+        +create_item(admin, canteen_id, data) MenuItem
+        +update_item(admin, item_id, data) MenuItem
+        +configure_slots(admin, canteen_id, minutes, capacity)
+        +top_up_wallet(admin, email, amount, now)
+    }
+    class AuthService {
+        +register_student(name, email, password, now) User
+        +login(email, password) User
+    }
+    class ReportService {
+        +daily_report(canteen_id, day) dict
+    }
+    Canteen "1" *-- "many" MenuItem
+    User "1" --> "many" Order : places
+    Canteen "1" --> "many" Order : receives
+    Order "1" *-- "1..*" OrderItem
+    OrderItem "many" --> "1" MenuItem
+    Order "1" *-- "many" OrderEvent
+    User "1" --> "many" WalletTransaction
+    Order --> Status
+    OrderService ..> SlotService : uses
+    OrderService ..> Order : manages
+    MenuService ..> MenuItem : manages
+    AuthService ..> User : manages
+    ReportService ..> Order : reads

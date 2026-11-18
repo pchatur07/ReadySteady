@@ -1,0 +1,40 @@
+sequenceDiagram
+    autonumber
+    actor S as Student
+    participant UI as Web UI (app.js)
+    participant API as API route /api/orders
+    participant OS as OrderService
+    participant SS as SlotService
+    participant R as Repository
+    participant DB as SQLite
+    S->>UI: Tap "Place order"
+    UI->>API: POST /api/orders {canteen_id, slot_start, items}
+    API->>API: requires("student") role check
+    API->>OS: place_order(user, canteen_id, items, slot_start, now)
+    OS->>OS: validate and merge cart lines
+    OS->>SS: validate_slot(canteen, slot_start, now)
+    SS-->>OS: slot time (or 400/409 error)
+    OS->>DB: BEGIN IMMEDIATE
+    OS->>R: count_in_slot(...)
+    alt slot full
+        OS-->>API: Conflict slot_full
+        OS->>DB: ROLLBACK
+    end
+    loop each cart item
+        OS->>R: MenuRepo.get(item_id)
+        R->>DB: SELECT
+        Note over OS: check available and stock >= qty
+    end
+    OS->>R: UserRepo.get(user) to check wallet
+    alt any check fails
+        OS->>DB: ROLLBACK
+        OS-->>API: Conflict (out_of_stock / insufficient_balance)
+        API-->>UI: 409 + message
+    else all checks pass
+        OS->>R: create order, add items, reduce stock, debit wallet, log event
+        R->>DB: INSERT / UPDATE
+        OS->>DB: COMMIT
+        OS-->>API: order with pickup token
+        API-->>UI: 201 Created
+        UI-->>S: Show token and status "Placed"
+    end
